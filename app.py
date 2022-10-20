@@ -1,16 +1,12 @@
 import os
-from pyexpat import model
 import streamlit as st
 import torch
 import string
-import pynput
 from transformers import BertTokenizer, BertForMaskedLM
-from pynput import keyboard
 from keras.models import load_model
 from nltk.tokenize import RegexpTokenizer
 from nltk.tokenize import word_tokenize
 import numpy as np
-import heapq
 
 import pandas as pd
 
