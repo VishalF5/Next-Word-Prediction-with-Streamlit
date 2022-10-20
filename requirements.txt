@@ -3,4 +3,3 @@ torch
 pynput
 tensorflow
 nltk
-heapq
