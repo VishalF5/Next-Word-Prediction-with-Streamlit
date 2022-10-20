@@ -3,5 +3,4 @@ torch
 pynput
 tensorflow
 nltk
-heapq
 pyexpat
