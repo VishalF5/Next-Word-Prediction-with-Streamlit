@@ -3,22 +3,22 @@ import streamlit as st
 import torch
 import string
 from transformers import BertTokenizer, BertForMaskedLM
-from keras.models import load_model
-from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import word_tokenize
-import numpy as np
+# from keras.models import load_model
+# from nltk.tokenize import RegexpTokenizer
+# from nltk.tokenize import word_tokenize
+# import numpy as np
 
 import pandas as pd
 
-unique_words = pd.read_pickle(r'saved_dictionary.pkl')
-id2word = pd.read_pickle(r'id2word.pkl')
-word2id = pd.read_pickle(r'word2id.pkl')
+# unique_words = pd.read_pickle(r'saved_dictionary.pkl')
+# id2word = pd.read_pickle(r'id2word.pkl')
+# word2id = pd.read_pickle(r'word2id.pkl')
 
-WORD_LENGTH = 5
+# WORD_LENGTH = 5
 
-tmodel = load_model('next_word_model2.h5')
+# tmodel = load_model('next_word_model2.h5')
 
-tokenizer = RegexpTokenizer(r'\w+')
+# tokenizer = RegexpTokenizer(r'\w+')
 
 
 #use joblib to fast your function
@@ -76,28 +76,28 @@ def get_prediction_eos(input_text):
 
 # Trained -----------------------------------------------
 
-def prepare_input(text):
-    words = tokenizer.tokenize(text)
-    x = np.zeros((1, WORD_LENGTH, len(unique_words)))
-    for t, word in enumerate(words):
-        x[0, t, word2id[word]] = 1.
+# def prepare_input(text):
+#     words = tokenizer.tokenize(text)
+#     x = np.zeros((1, WORD_LENGTH, len(unique_words)))
+#     for t, word in enumerate(words):
+#         x[0, t, word2id[word]] = 1.
         
-    return x
+#     return x
 
-def sample(preds, top_n= 3):
-    preds = np.asarray(preds).astype('float64')
-    preds = np.log(preds)
-    exp_preds = np.exp(preds)
-    preds = exp_preds / np.sum(exp_preds)
+# def sample(preds, top_n= 3):
+#     preds = np.asarray(preds).astype('float64')
+#     preds = np.log(preds)
+#     exp_preds = np.exp(preds)
+#     preds = exp_preds / np.sum(exp_preds)
 
-    return heapq.nlargest(top_n, range(len(preds)), preds.take)
+#     return heapq.nlargest(top_n, range(len(preds)), preds.take)
 
 
-def predict_next_word(text, n=3):
-    x = prepare_input(text)
-    preds = tmodel.predict(x, verbose=0)[0]
-    next_indices = sample(preds, n)
-    return [id2word[idx] for idx in next_indices]
+# def predict_next_word(text, n=3):
+#     x = prepare_input(text)
+#     preds = tmodel.predict(x, verbose=0)[0]
+#     next_indices = sample(preds, n)
+#     return [id2word[idx] for idx in next_indices]
 
 # -----------------------------------------------------------------------------
 
@@ -128,15 +128,15 @@ if model_name.lower() == "bert":
     print("SOME PROBLEM OCCURED")
 
 
-if model_name.lower() == "trainm":
-  try:
-    input_text = st.text_area("Enter your text here")
-    res = predict_next_word(input_text)
+# if model_name.lower() == "trainm":
+#   try:
+#     input_text = st.text_area("Enter your text here")
+#     res = predict_next_word(input_text)
 
-    answer = []
-    for i in res:
-      answer.append(i)
-    answer_as_string = "    ".join(answer)
-    st.text_area("Predicted List is Here",answer_as_string,key="predicted_list")
-  except Exception as e:
-    print(e)
+#     answer = []
+#     for i in res:
+#       answer.append(i)
+#     answer_as_string = "    ".join(answer)
+#     st.text_area("Predicted List is Here",answer_as_string,key="predicted_list")
+#   except Exception as e:
+#     print(e)
