@@ -2,3 +2,4 @@ streamlit
 torch
 tensorflow
 nltk
+transformers
